@@ -8,7 +8,7 @@ function ApiChecker() {
 
   const handleCheck = async () => {
     setResult("⏳ Checking...");
-    const res = await fetch("http://localhost:5000/check", {
+    const res = await fetch("https://api-key-checker-1.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ key }),
