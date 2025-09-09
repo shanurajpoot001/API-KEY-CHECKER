@@ -1,21 +1,32 @@
 import { useState } from "react";
 import "./ApiChecker.css";
 
-
 function ApiChecker() {
   const [key, setKey] = useState("");
   const [result, setResult] = useState("");
 
   const handleCheck = async () => {
-    setResult("⏳ Checking...");
-    const res = await fetch("https://api-key-checker-1.onrender.com", {
+  setResult("⏳ Checking...");
+  try {
+    const res = await fetch("https://api-key-checker-1.onrender.com/check", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ key }),
     });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(text);
+    }
+
     const data = await res.json();
     setResult(data.message);
-  };
+  } catch (err) {
+    setResult("❌ Backend Error");
+    console.error(err);
+  }
+};
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
